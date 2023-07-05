@@ -101,8 +101,8 @@ namespace Chessington.GameEngine.Pieces
             while (!IsOccupied(board, x, y))
             {
                 moves.Add(new Square(x,y ));
-                x += 1;
-                y -= 1; 
+                y += 1;
+                x -= 1; 
             }
             
             y = position.Col - 1;
@@ -111,8 +111,8 @@ namespace Chessington.GameEngine.Pieces
             while (!IsOccupied(board, x, y))
             {
                 moves.Add(new Square(x,y ));
-                x -= 1;
-                y += 1; 
+                y -= 1;
+                x += 1; 
             }
             
             y = position.Col - 1;
