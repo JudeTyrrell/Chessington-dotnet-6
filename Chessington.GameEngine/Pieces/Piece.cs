@@ -78,5 +78,60 @@ namespace Chessington.GameEngine.Pieces
 
             return moves;
         }
+
+        public List<Square> GetDiagonalMoves(Board board)
+        {
+            var position = board.FindPiece(this);
+
+            var moves = new List<Square>();
+
+            var y = position.Col + 1;
+            var x = position.Row + 1;
+
+            while (!IsOccupied(board, x, y))
+            {
+                moves.Add(new Square(x,y ));
+                x += 1;
+                y += 1; 
+            }
+
+            y = position.Col + 1;
+            x = position.Row - 1; 
+            
+            while (!IsOccupied(board, x, y))
+            {
+                moves.Add(new Square(x,y ));
+                x += 1;
+                y -= 1; 
+            }
+            
+            y = position.Col - 1;
+            x = position.Row + 1; 
+            
+            while (!IsOccupied(board, x, y))
+            {
+                moves.Add(new Square(x,y ));
+                x -= 1;
+                y += 1; 
+            }
+            
+            y = position.Col - 1;
+            x = position.Row - 1;
+
+            while (!IsOccupied(board, x, y))
+            {
+                moves.Add(new Square(x,y ));
+                x -= 1;
+                y -= 1; 
+            }
+            
+            return moves;
+        }
+
+        public static bool IsOccupied(Board board, int x, int y)
+        {
+            if (x < 0 || x > 7 || y < 0 || y > 7) return true;
+            return board.GetPiece(new Square(x, y)) != null;
+        }
     }
 }
