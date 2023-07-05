@@ -33,14 +33,14 @@ namespace Chessington.GameEngine.Pieces
             
             for (int i = 0; i < position.Row; i++)
             {
-                if (board.GetPiece(new Square(i, position.Col)) != null)
+                if (IsOccupied(board, i, position.Col))
                 {
                     low = i + 1;
                 }
             }
             for (int i = 7; i > position.Row; i--)
             {
-                if (board.GetPiece(new Square(i, position.Col)) != null)
+                if (IsOccupied(board, i, position.Col))
                 {
                     high = i - 1;
                 }
@@ -56,14 +56,14 @@ namespace Chessington.GameEngine.Pieces
             
             for (int i = 0; i < position.Col; i++)
             {
-                if (board.GetPiece(new Square(position.Row, i)) != null)
+                if (IsOccupied(board, position.Row, i))
                 {
                     low = i + 1;
                 }
             }
             for (int i = 7; i > position.Col; i--)
             {
-                if (board.GetPiece(new Square(i, position.Row)) != null)
+                if (IsOccupied(board, position.Row, i))
                 {
                     high = i - 1;
                 }
@@ -128,10 +128,10 @@ namespace Chessington.GameEngine.Pieces
             return moves;
         }
 
-        public static bool IsOccupied(Board board, int x, int y)
+        public static bool IsOccupied(Board board, int row, int col)
         {
-            if (x < 0 || x > 7 || y < 0 || y > 7) return true;
-            return board.GetPiece(new Square(x, y)) != null;
+            if (row < 0 || row > 7 || col < 0 || col > 7) return true;
+            return board.GetPiece(new Square(row, col)) != null;
         }
     }
 }
