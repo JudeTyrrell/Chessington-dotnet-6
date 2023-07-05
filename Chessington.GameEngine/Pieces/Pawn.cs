@@ -14,21 +14,36 @@ namespace Chessington.GameEngine.Pieces
 
             var availableMoves = new List<Square>();
 
-            Square newPosition;
+            var newPositions = new List<Square>();
 
             if (Player == Player.Black)
             {
-                newPosition = new Square(position.Row + 1, position.Col);
+                newPositions.Add(new Square(position.Row + 1, position.Col));
+
+                if (!Moved)
+                {
+                    newPositions.Add(new Square(position.Row + 2, position.Col));
+                }
             }
             else
             {
-                newPosition = new Square(position.Row - 1, position.Col);
+                newPositions.Add(new Square(position.Row - 1, position.Col));
+                
+                if (!Moved)
+                {
+                    newPositions.Add(new Square(position.Row - 2, position.Col));
+                }
+                
             }
             
-            if (board.GetPiece(newPosition) == null)
+            foreach (Square newPosition in newPositions)
             {
-                availableMoves.Add(newPosition);
+                if (board.GetPiece(newPosition) == null)
+                {
+                    availableMoves.Add(newPosition);
+                }
             }
+            
             
             return availableMoves;
         }
