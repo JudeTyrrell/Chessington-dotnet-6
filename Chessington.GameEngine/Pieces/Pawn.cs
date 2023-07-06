@@ -44,10 +44,14 @@ namespace Chessington.GameEngine.Pieces
                 {
                     moves.Add(Square.At(position.Row + sign, position.Col + i));
                 }
+                
+                
             }
 
             return moves;
         }
+        
+        
         public override int GetValue()
         {
             return 1;

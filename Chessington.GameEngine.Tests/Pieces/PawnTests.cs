@@ -235,5 +235,18 @@ namespace Chessington.GameEngine.Tests.Pieces
 
             board.GetPiece(Square.At(4, 0)).Should().BeNull();
         }
+        [Test]
+        public void PawnUpgradeQueen()
+        {
+            var board = new Board();
+            var wPawn = new Pawn(Player.White);
+            
+            board.AddPiece(Square.At(1,1), wPawn);
+            
+            wPawn.MoveTo(board, Square.At(0,1));
+
+            board.GetPiece(Square.At(0, 1)).GetType().Should().Be(typeof(Queen));
+
+        }
     }
 }

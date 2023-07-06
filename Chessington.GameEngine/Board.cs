@@ -62,16 +62,17 @@ namespace Chessington.GameEngine
             }
             else if (movingPiece.GetType() == typeof(Pawn) && from.Col != to.Col)
             {
-                if (movingPiece.Player == Player.White)
-                {
-                    OnPieceCaptured(_board[to.Row + 1, to.Col]);
-                    _board[to.Row + 1, to.Col] = null;
-                }
-                else
-                {
-                    OnPieceCaptured(_board[to.Row - 1, to.Col]);
-                    _board[to.Row - 1, to.Col] = null;
-                }
+                    if (movingPiece.Player == Player.White)
+                    {
+                        OnPieceCaptured(_board[to.Row + 1, to.Col]);
+                        _board[to.Row + 1, to.Col] = null;
+                    }
+                    else
+                    {
+                        OnPieceCaptured(_board[to.Row - 1, to.Col]);
+                        _board[to.Row - 1, to.Col] = null;
+                    }
+                
             }
             
             else if (movingPiece.GetType() == typeof(King) && Math.Abs(from.Col - to.Col) == 2)
@@ -85,6 +86,11 @@ namespace Chessington.GameEngine
             //Move the piece and set the 'from' square to be empty.
             _board[to.Row, to.Col] = _board[from.Row, from.Col];
             _board[from.Row, from.Col] = null;
+            
+            if (movingPiece.GetType() == typeof(Pawn) && (to.Row == 7 || to.Row == 0))
+            {
+                _board[to.Row, to.Col] = new Queen(movingPiece.Player, true);
+            }
 
             LastMove = new Tuple<Square, Square>(from, to);
 
