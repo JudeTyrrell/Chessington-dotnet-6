@@ -1,19 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Chessington.GameEngine.Pieces
 {
     public abstract class Piece
     {
-        protected Piece(Player player)
+        protected Piece(Player player, bool moved = false)
         {
             Player = player;
+            Moved = moved;
         }
 
         public Player Player { get; private set; }
 
         public bool Moved { get; private set; }
 
-        public abstract IEnumerable<Square> GetAvailableMoves(Board board);
+        public abstract IEnumerable<Square> GetPossibleMoves(Board board);
+        
+        public IEnumerable<Square> GetAvailableMoves(Board board)
+        {
+            var position = board.FindPiece(this);
+            var moves = GetPossibleMoves(board);
+
+            var noChecks = new List<Square>();
+            
+            foreach (var move in moves)
+            {
+                var nextBoard = board.Copy(Player);
+                nextBoard.GetPiece(position).MoveTo(nextBoard, move);
+                if (!nextBoard.InCheck(Player))
+                {
+                    noChecks.Add(move);
+                }
+            }
+
+            return noChecks;
+        }
+
+        public abstract int GetValue();
 
         public void MoveTo(Board board, Square newSquare)
         {
@@ -169,6 +193,8 @@ namespace Chessington.GameEngine.Pieces
             }
             return piece.Player != Player;
         }
+
+        public abstract Piece Copy();
     }
 }
 

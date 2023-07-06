@@ -61,4 +61,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FakeItEasy" Version="8.0.0-alpha.1" />
+    </ItemGroup>
+
 </Project>

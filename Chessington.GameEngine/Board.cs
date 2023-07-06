@@ -4,11 +4,12 @@ using Chessington.GameEngine.Pieces;
 
 namespace Chessington.GameEngine
 {
-    public class Board
+    public class Board : IBoard
     {
         private readonly Piece[,] _board;
         public Player CurrentPlayer { get; private set; }
-        public IList<Piece> CapturedPieces { get; private set; } 
+        
+        public IList<Piece> CapturedPieces { get; private set; }
 
         public Board()
             : this(Player.White) { }
@@ -20,9 +21,9 @@ namespace Chessington.GameEngine
             CapturedPieces = new List<Piece>();
         }
 
-        public void AddPiece(Square square, Piece pawn)
+        public void AddPiece(Square square, Piece piece)
         {
-            _board[square.Row, square.Col] = pawn;
+            _board[square.Row, square.Col] = piece;
         }
     
         public Piece GetPiece(Square square)
@@ -82,6 +83,48 @@ namespace Chessington.GameEngine
         {
             var handler = CurrentPlayerChanged;
             handler?.Invoke(player);
+        }
+
+        public Board Copy(Player player)
+        {
+            var board = new Board(player);
+
+            for (int x = 0; x < 8; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    var piece = GetPiece(Square.At(x, y));
+                    if (piece != null)
+                    {
+                        board.AddPiece(Square.At(x, y), piece.Copy());
+                    }
+                }
+            }
+
+            return board;
+        }
+
+        public bool InCheck(Player player)
+        {
+            foreach (var piece in _board)
+            {
+                if (piece != null)
+                {
+                    if (piece.Player != player)
+                    {
+                        foreach (var move in piece.GetPossibleMoves(this))
+                        {
+                            var capture = GetPiece(move);
+                            if (capture != null && capture.GetType() == typeof(King) && capture.Player == player)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return false;
         }
     }
 }

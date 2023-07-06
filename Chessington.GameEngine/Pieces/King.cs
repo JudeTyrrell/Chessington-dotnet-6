@@ -5,10 +5,10 @@ namespace Chessington.GameEngine.Pieces
 {
     public class King : Piece
     {
-        public King(Player player)
-            : base(player) { }
+        public King(Player player, bool moved = false)
+            : base(player, moved) { }
 
-        public override IEnumerable<Square> GetAvailableMoves(Board board)
+        public override IEnumerable<Square> GetPossibleMoves(Board board)
         {
             var position = board.FindPiece(this);
 
@@ -36,6 +36,17 @@ namespace Chessington.GameEngine.Pieces
             }
 
             return moves;
+        }
+        
+        
+        public override int GetValue()
+        {
+            return -1;
+        }
+        
+        public override King Copy()
+        {
+            return new King(Player, Moved);
         }
     }
 }
