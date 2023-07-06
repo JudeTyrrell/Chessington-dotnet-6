@@ -33,16 +33,32 @@ namespace Chessington.GameEngine.Pieces
             
             for (int i = 0; i < position.Row; i++)
             {
-                if (IsOccupied(board, i, position.Col))
+                var piece = board.GetPiece(new Square(i, position.Col));
+                if (piece != null)
                 {
-                    low = i + 1;
+                    if (piece.Player == Player)
+                    {
+                        low = i + 1;
+                    }
+                    else
+                    {
+                        low = i;
+                    }
                 }
             }
             for (int i = 7; i > position.Row; i--)
             {
-                if (IsOccupied(board, i, position.Col))
+                var piece = board.GetPiece(new Square(i, position.Col));
+                if (piece != null)
                 {
-                    high = i - 1;
+                    if (piece.Player == Player)
+                    {
+                        high = i - 1;
+                    }
+                    else
+                    {
+                        high = i;
+                    }
                 }
             }
 
@@ -56,16 +72,32 @@ namespace Chessington.GameEngine.Pieces
             
             for (int i = 0; i < position.Col; i++)
             {
-                if (IsOccupied(board, position.Row, i))
+                var piece = board.GetPiece(new Square(position.Row, i));
+                if (piece != null)
                 {
-                    low = i + 1;
+                    if (piece.Player == Player)
+                    {
+                        low = i + 1;
+                    }
+                    else
+                    {
+                        low = i;
+                    }
                 }
             }
             for (int i = 7; i > position.Col; i--)
             {
-                if (IsOccupied(board, position.Row, i))
+                var piece = board.GetPiece(new Square(position.Row, i));
+                if (piece != null)
                 {
-                    high = i - 1;
+                    if (piece.Player == Player)
+                    {
+                        high = i - 1;
+                    }
+                    else
+                    {
+                        high = i;
+                    }
                 }
             }
 
