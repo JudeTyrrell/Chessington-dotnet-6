@@ -19,11 +19,28 @@ namespace Chessington.GameEngine.Pieces
             {
                 for (int j = -2; j < 3; j++)
                 {
-                    if (Math.Abs(i) != Math.Abs(j) && i != 0 && j != 0) {
-                        if (!IsOccupied(board, position.Row + i, position.Col + j))
+                    if (Math.Abs(i) != Math.Abs(j) && i != 0 && j != 0)
+                    {
+                        try
                         {
-                            moves.Add(new Square(position.Row + i, position.Col + j));
+                            var piece = board.GetPiece(new Square(position.Row + i, position.Col + j));
+                            if (piece==null || piece.Player != Player)
+                            {
+                                moves.Add(new Square(position.Row + i, position.Col + j));
+                            }
                         }
+                        catch
+                        {
+                        }
+
+                        // if (!IsOccupiedOrOOB(board, position.Row + i, position.Col + j))
+                        // {
+                        //     moves.Add(new Square(position.Row + i, position.Col + j));
+                        // }
+                        // if (board.GetPiece(new Square(position.Row + i, position.Col + j)).Player != Player)
+                        // {
+                        //     moves.Add(new Square(position.Row + i, position.Col + j));
+                        // }
                     }
                 }
             }

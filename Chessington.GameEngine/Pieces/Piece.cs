@@ -125,7 +125,7 @@ namespace Chessington.GameEngine.Pieces
                     var x = position.Row + i;
                     var y = position.Col + j;
                     
-                    while (!IsOccupied(board, x, y))
+                    while (!IsOccupiedOrOOB(board, x, y))
                     {
                         moves.Add(new Square(x,y ));
                         x += i;
@@ -149,7 +149,7 @@ namespace Chessington.GameEngine.Pieces
             return moves;
         }
 
-        public static bool IsOccupied(Board board, int row, int col)
+        public static bool IsOccupiedOrOOB(Board board, int row, int col)
         {
             if (row < 0 || row > 7 || col < 0 || col > 7) return true;
             return board.GetPiece(new Square(row, col)) != null;

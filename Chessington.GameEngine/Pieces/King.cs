@@ -18,7 +18,7 @@ namespace Chessington.GameEngine.Pieces
             {
                 for (int j = -1; j < 2; j++)
                 {
-                    if ((i != 0 || j != 0) && !IsOccupied(board, position.Row + i, position.Col + j))
+                    if ((i != 0 || j != 0) && !IsOccupiedOrOOB(board, position.Row + i, position.Col + j))
                     {
                         moves.Add(new Square(position.Row + i, position.Col + j));
                     }

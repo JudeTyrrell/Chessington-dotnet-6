@@ -17,11 +17,11 @@ namespace Chessington.GameEngine.Pieces
 
             if (Player == Player.White)
             {
-                if (!IsOccupied(board, position.Row - 1, position.Col))
+                if (!IsOccupiedOrOOB(board, position.Row - 1, position.Col))
                 {
                     moves.Add(new Square(position.Row-1,position.Col));
 
-                    if (!IsOccupied(board, position.Row - 2, position.Col) && !Moved)
+                    if (!IsOccupiedOrOOB(board, position.Row - 2, position.Col) && !Moved)
                     {
                         moves.Add(new Square(position.Row-2, position.Col));
                     }
@@ -31,11 +31,11 @@ namespace Chessington.GameEngine.Pieces
             else
 
             {
-                if (!IsOccupied(board, position.Row + 1, position.Col))
+                if (!IsOccupiedOrOOB(board, position.Row + 1, position.Col))
                 {
                     moves.Add(new Square(position.Row+1,position.Col));
 
-                    if (!IsOccupied(board, position.Row + 2, position.Col) && !Moved)
+                    if (!IsOccupiedOrOOB(board, position.Row + 2, position.Col) && !Moved)
                     {
                         moves.Add(new Square(position.Row +2 , position.Col));
                     }
