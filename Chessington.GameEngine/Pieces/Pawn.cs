@@ -15,30 +15,28 @@ namespace Chessington.GameEngine.Pieces
 
             var moves = new List<Square>();
 
+            var sign = 1;
+            
             if (Player == Player.White)
             {
-                if (!IsOccupiedOrOOB(board, position.Row - 1, position.Col))
-                {
-                    moves.Add(new Square(position.Row-1,position.Col));
-
-                    if (!IsOccupiedOrOOB(board, position.Row - 2, position.Col) && !Moved)
-                    {
-                        moves.Add(new Square(position.Row-2, position.Col));
-                    }
-                }
+                sign = -1;
             }
             
-            else
-
+            if (!IsOccupiedOrOOB(board, position.Row + sign, position.Col))
             {
-                if (!IsOccupiedOrOOB(board, position.Row + 1, position.Col))
-                {
-                    moves.Add(new Square(position.Row+1,position.Col));
+                moves.Add(new Square(position.Row + sign,position.Col));
 
-                    if (!IsOccupiedOrOOB(board, position.Row + 2, position.Col) && !Moved)
-                    {
-                        moves.Add(new Square(position.Row +2 , position.Col));
-                    }
+                if (!IsOccupiedOrOOB(board, position.Row + (2 * sign), position.Col) && !Moved)
+                {
+                    moves.Add(new Square(position.Row + (2 * sign), position.Col));
+                }
+            }
+
+            for (int i = -1; i < 2; i += 2)
+            {
+                if (IsOpposing(board, position.Row + sign, position.Col + i))
+                {
+                    moves.Add(new Square(position.Row + sign, position.Col + i));
                 }
             }
 

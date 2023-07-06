@@ -154,5 +154,21 @@ namespace Chessington.GameEngine.Pieces
             if (row < 0 || row > 7 || col < 0 || col > 7) return true;
             return board.GetPiece(new Square(row, col)) != null;
         }
+        
+        public bool IsOpposing(Board board, int row, int col)
+        { 
+            if (row < 0 || row > 7 || col < 0 || col > 7)
+            {
+                return false;
+            }
+            
+            var piece = board.GetPiece(new Square(row,col));
+            if (piece == null)
+            {
+                return false;
+            }
+            return piece.Player != Player;
+        }
     }
 }
+
