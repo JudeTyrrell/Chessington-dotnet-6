@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace Chessington.GameEngine.Pieces
 {
@@ -12,40 +13,36 @@ namespace Chessington.GameEngine.Pieces
         {
             var position = board.FindPiece(this);
 
-            var availableMoves = new List<Square>();
+            var moves = new List<Square>();
 
-            var newPositions = new List<Square>();
-
-            if (Player == Player.Black)
+            if (Player == Player.White)
             {
-                newPositions.Add(new Square(position.Row + 1, position.Col));
-
-                if (!Moved)
+                if (!IsOccupied(board, position.Row - 1, position.Col))
                 {
-                    newPositions.Add(new Square(position.Row + 2, position.Col));
+                    moves.Add(new Square(position.Row-1,position.Col));
+
+                    if (!IsOccupied(board, position.Row - 2, position.Col) && !Moved)
+                    {
+                        moves.Add(new Square(position.Row-2, position.Col));
+                    }
                 }
             }
+            
             else
+
             {
-                newPositions.Add(new Square(position.Row - 1, position.Col));
-                
-                if (!Moved)
+                if (!IsOccupied(board, position.Row + 1, position.Col))
                 {
-                    newPositions.Add(new Square(position.Row - 2, position.Col));
-                }
-                
-            }
-            
-            foreach (Square newPosition in newPositions)
-            {
-                if (board.GetPiece(newPosition) == null)
-                {
-                    availableMoves.Add(newPosition);
+                    moves.Add(new Square(position.Row+1,position.Col));
+
+                    if (!IsOccupied(board, position.Row + 2, position.Col) && !Moved)
+                    {
+                        moves.Add(new Square(position.Row +2 , position.Col));
+                    }
                 }
             }
-            
-            
-            return availableMoves;
+
+            return moves;
         }
     }
 }
