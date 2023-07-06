@@ -114,47 +114,36 @@ namespace Chessington.GameEngine.Pieces
         public List<Square> GetDiagonalMoves(Board board)
         {
             var position = board.FindPiece(this);
-
+            
             var moves = new List<Square>();
 
-            var y = position.Col + 1;
-            var x = position.Row + 1;
+            for (var i = -1; i < 2; i += 2)
+            {
+                for (var j = -1; j < 2; j += 2)
+                {
+                    
+                    var x = position.Row + i;
+                    var y = position.Col + j;
+                    
+                    while (!IsOccupied(board, x, y))
+                    {
+                        moves.Add(new Square(x,y ));
+                        x += i;
+                        y += j; 
+                    }
 
-            while (!IsOccupied(board, x, y))
-            {
-                moves.Add(new Square(x,y ));
-                x += 1;
-                y += 1; 
-            }
-
-            y = position.Col + 1;
-            x = position.Row - 1; 
-            
-            while (!IsOccupied(board, x, y))
-            {
-                moves.Add(new Square(x,y ));
-                y += 1;
-                x -= 1; 
-            }
-            
-            y = position.Col - 1;
-            x = position.Row + 1; 
-            
-            while (!IsOccupied(board, x, y))
-            {
-                moves.Add(new Square(x,y ));
-                y -= 1;
-                x += 1; 
-            }
-            
-            y = position.Col - 1;
-            x = position.Row - 1;
-
-            while (!IsOccupied(board, x, y))
-            {
-                moves.Add(new Square(x,y ));
-                x -= 1;
-                y -= 1; 
+                    try
+                    {
+                        var piece = board.GetPiece(new Square(x,y));
+                        if (piece.Player != Player)
+                        {
+                            moves.Add(new Square(x,y));
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
             }
             
             return moves;
