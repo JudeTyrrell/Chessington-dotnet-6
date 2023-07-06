@@ -18,9 +18,19 @@ namespace Chessington.GameEngine.Pieces
             {
                 for (int j = -1; j < 2; j++)
                 {
-                    if ((i != 0 || j != 0) && !IsOccupiedOrOOB(board, position.Row + i, position.Col + j))
-                    {
-                        moves.Add(new Square(position.Row + i, position.Col + j));
+                    if ((i != 0 || j != 0))
+                    {   
+                        try
+                        {
+                            var piece = board.GetPiece(new Square(position.Row + i, position.Col + j));
+                            if (piece==null || piece.Player != Player)
+                            {
+                                moves.Add(new Square(position.Row + i, position.Col + j));
+                            }
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
             }
