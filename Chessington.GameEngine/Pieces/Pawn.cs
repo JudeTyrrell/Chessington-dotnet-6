@@ -38,6 +38,12 @@ namespace Chessington.GameEngine.Pieces
                 {
                     moves.Add(new Square(position.Row + sign, position.Col + i));
                 }
+
+                if (board.LastMove != null && board.LastMove.Item1.Equals(Square.At(position.Row + 2 * sign, position.Col + i)) &&
+                    board.LastMove.Item2.Equals(Square.At(position.Row, position.Col + i)))
+                {
+                    moves.Add(Square.At(position.Row + sign, position.Col + i));
+                }
             }
 
             return moves;

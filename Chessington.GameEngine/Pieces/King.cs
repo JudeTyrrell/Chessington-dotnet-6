@@ -27,6 +27,27 @@ namespace Chessington.GameEngine.Pieces
                             {
                                 moves.Add(new Square(position.Row + i, position.Col + j));
                             }
+
+                            if (!Moved)
+                            {
+                                int[] rooks = { 0, 7 };
+                                foreach (int col in rooks)
+                                {
+                                    var rook = board.GetPiece(Square.At(position.Row, col));
+                                    var direction = col == 0 ? -1 : 1;
+                                    
+                                    if (rook != null && !rook.Moved && rook.GetType() == typeof(Rook))
+                                    {
+                                        var nextBoard = board.Copy(Player);
+                                        nextBoard.GetPiece(position).MoveTo(nextBoard, Square.At(position.Row, position.Col + direction));
+                                        if (!nextBoard.InCheck(Player))
+                                        {
+                                            moves.Add(new Square(position.Row, position.Col + 2*direction));
+                                        }
+                                    }
+                                }
+                            }
+                            
                         }
                         catch
                         {

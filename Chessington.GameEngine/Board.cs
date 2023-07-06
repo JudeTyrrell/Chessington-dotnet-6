@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Chessington.GameEngine.Pieces;
 
 namespace Chessington.GameEngine
@@ -8,6 +10,8 @@ namespace Chessington.GameEngine
     {
         private readonly Piece[,] _board;
         public Player CurrentPlayer { get; private set; }
+
+        public Tuple<Square, Square> LastMove { get; private set; }
         
         public IList<Piece> CapturedPieces { get; private set; }
 
@@ -56,10 +60,33 @@ namespace Chessington.GameEngine
             {
                 OnPieceCaptured(_board[to.Row, to.Col]);
             }
+            else if (movingPiece.GetType() == typeof(Pawn) && from.Col != to.Col)
+            {
+                if (movingPiece.Player == Player.White)
+                {
+                    OnPieceCaptured(_board[to.Row + 1, to.Col]);
+                    _board[to.Row + 1, to.Col] = null;
+                }
+                else
+                {
+                    OnPieceCaptured(_board[to.Row - 1, to.Col]);
+                    _board[to.Row - 1, to.Col] = null;
+                }
+            }
+            
+            else if (movingPiece.GetType() == typeof(King) && Math.Abs(from.Col - to.Col) == 2)
+            {
+                var rookCol = to.Col < 3 ? 0 : 7;
+                var direction = to.Col < 3 ? 1 : -1;
+                _board[to.Row, to.Col + direction] = GetPiece(Square.At(to.Row, rookCol));
+                _board[to.Row, rookCol] = null;
+            }
 
             //Move the piece and set the 'from' square to be empty.
             _board[to.Row, to.Col] = _board[from.Row, from.Col];
             _board[from.Row, from.Col] = null;
+
+            LastMove = new Tuple<Square, Square>(from, to);
 
             CurrentPlayer = movingPiece.Player == Player.White ? Player.Black : Player.White;
             OnCurrentPlayerChanged(CurrentPlayer);
